@@ -10,5 +10,5 @@ asgn_dir="asgn$1"
 [[ ! -d "$asgn_dir" ]] && { echo "'$asgn_dir': not a folder"; exit 1; }
 
 branch="$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)"
-git archive --format=zip -o "CS102_02_Asgn${1}_Dag_Umut.zip" "$branch" "$asgn_dir"
+git archive --format=zip -o "CS102_Sec2_Asgn${1}_Dag_Umut.zip" "$branch" "$asgn_dir"
 
