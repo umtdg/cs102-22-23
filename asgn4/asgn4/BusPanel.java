@@ -23,7 +23,7 @@ public class BusPanel extends JPanel {
 
     private static final int MAX_WHEEL_DIAMETER = BUS_HALF_HEIGHT;
 
-    private static final int WINDOW_MARGIN = 20;
+    private static final int WINDOW_MARGIN = 10;
     private static final int WINDOW_SIZE = 50;
     private static final int WINDOW_Y = BUS_Y + WINDOW_MARGIN;
 
