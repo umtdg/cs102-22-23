@@ -65,7 +65,7 @@ public abstract class Vehicle {
             fmtBuilder.append(" - Position: %.2f");
         }
         fmtBuilder.append(" - Speed: %.2f");
-        fmtBuilder.append(" - Fuel: %d\n");
+        fmtBuilder.append(" - Fuel: %d");
 
         if (displayPos) {
             return String.format(
