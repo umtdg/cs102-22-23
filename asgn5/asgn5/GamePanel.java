@@ -87,6 +87,7 @@ public class GamePanel extends JPanel {
     private void createButtons() {
         ActionListener onClick = e -> {
             mainFrame.score -= 1;
+            mainFrame.setTitle(String.format(MainFrame.FMT_TITLE, mainFrame.score));
             System.out.printf("Button click, Score: %d\n", mainFrame.score);
 
             JButton source = (JButton) e.getSource();
