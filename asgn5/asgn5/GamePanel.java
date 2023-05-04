@@ -69,6 +69,7 @@ public class GamePanel extends JPanel {
         } else {
             createButtons();
             checkButtons();
+            updateTitle();
         }
     }
 
@@ -87,16 +88,15 @@ public class GamePanel extends JPanel {
     private void createButtons() {
         ActionListener onClick = e -> {
             mainFrame.score -= 1;
-            mainFrame.setTitle(String.format(MainFrame.FMT_TITLE, mainFrame.score));
+            updateTitle();
             System.out.printf("Button click, Score: %d\n", mainFrame.score);
 
             JButton source = (JButton) e.getSource();
             source.setBackground(colors[random.nextInt(3)]);
 
-            if (checkButtons()) {
-                mainFrame.setTitle(String.format(MainFrame.FMT_TITLE, mainFrame.score));
-                mainFrame.checkGameOver();
-            }
+            checkButtons();
+            updateTitle();
+            mainFrame.checkGameOver();
         };
 
         for (int i = 0; i < NESTED_PANELS; i++) {
@@ -107,6 +107,10 @@ public class GamePanel extends JPanel {
             buttons[i] = button;
             this.add(button);
         }
+    }
+
+    private void updateTitle() {
+        mainFrame.setTitle(String.format(MainFrame.FMT_TITLE, mainFrame.score));
     }
 
     /**
