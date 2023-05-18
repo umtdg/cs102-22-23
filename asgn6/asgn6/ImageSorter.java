@@ -23,6 +23,8 @@ public class ImageSorter extends JPanel {
     int currentColumn;
     int maxRows;
     int maxColumns;
+    int horizontalStepColumn;
+    int verticalStepRow;
 
     public ImageSorter() {
         bufferedImage = null;
@@ -31,6 +33,8 @@ public class ImageSorter extends JPanel {
         currentColumn = 0;
         maxRows = 0;
         maxColumns = 0;
+        verticalStepRow += 1;
+        horizontalStepColumn += 1;
     }
 
     public boolean isLoaded() {
@@ -39,12 +43,12 @@ public class ImageSorter extends JPanel {
 
     public boolean isVerticallyCompleted() {
         return isLoaded()
-            && currentColumn > maxColumns;
+            && verticalStepRow > maxRows;
     }
 
     public boolean isHorizontallyCompleted() {
         return isLoaded()
-            && currentRow > maxRows;
+            && horizontalStepColumn > maxColumns;
     }
 
     public boolean isCompleted() {
@@ -74,36 +78,39 @@ public class ImageSorter extends JPanel {
     public void horizontalStep() {
         if (isHorizontallyCompleted()) return;
 
-        for (int i = 0; i < maxColumns; i++) {
-            for (int j = 0; j < maxColumns - i; j++) {
-                Color current = new Color(bufferedImage.getRGB(j, currentRow));
-                Color next = new Color(bufferedImage.getRGB(j + 1, currentRow));
-                swapIfBrighter(
-                    j, currentRow, current,
-                    j + 1, currentRow, next
-                );
-            }
+        for (int j = 0; j < maxColumns - horizontalStepColumn; j++) {
+            Color current = new Color(bufferedImage.getRGB(j, currentRow));
+            Color next = new Color(bufferedImage.getRGB(j + 1, currentRow));
+            swapIfBrighter(
+                j, currentRow, current,
+                j + 1, currentRow, next
+            );
         }
 
         currentRow += 1;
+        if (currentRow >= maxRows) {
+            horizontalStepColumn += 1;
+            currentRow = 0;
+        }
     }
 
     public void verticalStep() {
         if (isVerticallyCompleted()) return;
 
-        int n = bufferedImage.getHeight() - 1;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                Color current = new Color(bufferedImage.getRGB(currentColumn, j));
-                Color next = new Color(bufferedImage.getRGB(currentColumn, j + 1));
-                swapIfBrighter(
-                    currentColumn, j, current,
-                    currentColumn, j + 1, next
-                );
-            }
+        for (int j = 0; j < maxRows - verticalStepRow - 1; j++) {
+            Color current = new Color(bufferedImage.getRGB(currentColumn, j));
+            Color next = new Color(bufferedImage.getRGB(currentColumn, j + 1));
+            swapIfBrighter(
+                currentColumn, j, current,
+                currentColumn, j + 1, next
+            );
         }
 
         currentColumn += 1;
+        if (currentColumn >= maxColumns) {
+            verticalStepRow += 1;
+            currentColumn = 0;
+        }
     }
 
     public void diagonalStep() {
