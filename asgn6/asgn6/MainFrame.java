@@ -4,9 +4,11 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements KeyListener {
     private JPanel mainPanel;
     private JPanel inputPanel;
 
@@ -28,6 +30,9 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setOpacity(1.0f);
         setUndecorated(false);
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
         setResizable(false);
 
         createComponents();
@@ -36,15 +41,29 @@ public class MainFrame extends JFrame {
         pack();
     }
 
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode()== KeyEvent.VK_RIGHT)
+            sliderAnimSpeed.setValue(sliderAnimSpeed.getValue() + 10);
+        else if (e.getKeyCode()== KeyEvent.VK_LEFT)
+            sliderAnimSpeed.setValue(sliderAnimSpeed.getValue() - 10);
+        else if (e.getKeyCode() == KeyEvent.VK_P)
+            onStartStop();
+    }
+
+    public void keyReleased(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {}
+
     private void createComponents() {
         mainPanel = new JPanel(new BorderLayout());
         inputPanel = new JPanel(new GridBagLayout());
 
         txtFileName = new JTextField();
         txtFileName.setEditable(false);
+        txtFileName.setFocusable(false);
 
         btnOpenImage = new JButton("Open image");
         btnOpenImage.addActionListener(this::onButtonClick);
+        btnOpenImage.setFocusable(false);
 
         sliderAnimSpeed = new JSlider(0, 1000, 200);
         sliderAnimSpeed.setPaintTicks(true);
@@ -53,9 +72,11 @@ public class MainFrame extends JFrame {
         sliderAnimSpeed.setMajorTickSpacing(100);
         sliderAnimSpeed.setMinorTickSpacing(10);
         sliderAnimSpeed.addChangeListener(this::onAnimSpeedChange);
+        sliderAnimSpeed.setFocusable(false);
 
         btnStartStop = new JButton("Start");
         btnStartStop.addActionListener(this::onButtonClick);
+        btnStartStop.setFocusable(false);
 
         fcImage = new JFileChooser();
         imageSorter = new ImageSorter();
